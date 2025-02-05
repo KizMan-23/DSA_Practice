@@ -7,11 +7,12 @@ class CustomQueue():
     def __init__(self, size):
         self.size = size
         self.data = [None] * size
+        self.count = 0
         self.lpt = 0   #remove an item and ++
         self.rpt = 0   # add an item and ++
     
     def IsEmpty(self):
-        return self.rpt == self.lpt
+        return self.count == 0
 
 
     def IsFull(self):
@@ -38,7 +39,8 @@ class CustomQueue():
             return
         
         self.__setitem__(self.rpt, new_node.data)
-        self.rpt = (self.rpt + 1) % self.size       #increament the pointer
+        self.rpt = (self.rpt + 1) % self.size      #increament the pointer
+        self.count += 1
 
     def dequeu(self):
         if self.IsEmpty():
@@ -46,11 +48,10 @@ class CustomQueue():
             return None
         
         item = self.__getitem__(self.lpt)
-        self.__setitem__(self.lpt, self.data[self.lpt + 1])    #mechanism to shift the item left
+        self.__setitem__(self.lpt, None)
+        self.lpt = (self.lpt + 1) % self.size
 
-        self.lpt = (self.lpt + 1) % self.size 
-        self.__setitem__((self.size - self.lpt), None)          #clears that index slot to None    
-        
+        self.count -= 1
         return item
 
     def __str__(self):
@@ -72,10 +73,10 @@ class DeQue():
         self.lpt = 0
 
     def IsEmpty(self):
-        return self.rpt == self.lpt
+        return self.count == 0
 
     def IsFull(self):
-        return self.rpt == self.lpt - 1 #creates a circular movement
+        return (self.rpt + 1) % self.size == self.lpt     #creates a circular movement
         
     def __getitem__(self, index):
         #return index at assignment
@@ -92,32 +93,37 @@ class DeQue():
 
     def enqueue(self, data):
         new_node = Node(data)
-        if self.isFull():
-            self.rpt = self.size % (self.rpt + 1)
-            self.data[self.rpt] = new_node.data
-            self.rpt += 1
+        if self.IsFull():
+            print("Queue is Full...")
+            return
         
         self.__setitem__(self.rpt, new_node.data)
-        self.rpt += 1
+        self.rpt = (self.rpt + 1) % self.size
+
+        self.count += 1
 
     def dequeue(self, index):
         if self.IsEmpty():
             print("Cant dequeue an empty Queue")
         
         item = self.__getitem__(self.lpt)
-        self.lpt += 1
-        # self. size -= 1
+        self.lpt  = (self.lpt + 1) % self.size
+        self.count -= 1
+        
         return item
 
     def pop_first(self):
         item = self.__getitem__(self.lpt)
         self.lpt += 1
-        
+        #func(traverse_left)
+        self.count -= 1
+
         return item
 
     def pop_last(self):
         item = self.__getitem__(self.rpt - 1)
         self.rpt -= 1
+        self.count -= 1
 
         return item
     
@@ -125,11 +131,13 @@ class DeQue():
         new_node = Node(data)
         self.__setitem__(self.lpt, new_node.data)
         self.lpt += 1
+        self.count += 1
 
     def push_last(self, data):
         new_node = Node(data)
         self.__setitem__(self.rpt - 1, new_node.data)
         self.rpt -= 1
+        self.count += 1
     
     def __str__(self):
         result = []
@@ -141,7 +149,7 @@ class DeQue():
     
 
 
-cq = CustomQueue(size = 5)
+cq = CustomQueue(size = 6)
 deque = DeQue(size = 6)
 
 cq.enqueue(2)
@@ -151,6 +159,12 @@ cq.enqueue(8)
 cq.enqueue(10)    #Test for circular queue
 cq.enqueue(12)   
 cq.enqueue(14)
+
+deque.enqueue(2)
+deque.enqueue(4)
+deque.enqueue(6)
+deque.enqueue(8)
+
 
 print(cq)
 print(cq.size)
