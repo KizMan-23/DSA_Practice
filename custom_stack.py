@@ -50,6 +50,7 @@ class CustomStack():
             return None
         else:
             item = self.data[self.ptr]     # value = self.__getitem__(self.ptr)
+            self.data[self.ptr] = None     #clears the slot
             self.ptr -= 1                  #self.__setitem__(self.ptr, None)
 
             self.size -= 1     #In dynamic stacks, after doubling the size of an empty is the size of the doubled stack
@@ -67,7 +68,7 @@ class CustomStack():
         self.data[self.ptr] = new_node.data
         # self.__setitem__(self.ptr, new_node.data)
 
-        # self.size +=1 -- In dynamic stacks, size does not ++ or -- with new items
+        # self.size +=1 -- In dynamic stacks, size should not ++ or -- with new items
 
     def peek(self):
         if self.IsEmpty():

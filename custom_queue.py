@@ -15,11 +15,8 @@ class CustomQueue():
 
 
     def IsFull(self):
-        if self.rpt == self.lpt - 1:               #creates a circular movement
-            return True
-        else:
-            return False
-        
+        return (self.rpt + 1) % self.size == self.lpt  #the rpt pointer wraps around
+    
     def __getitem__(self, index):
         #return index at assignment
         if index < 0 or index >= self.rpt:
@@ -37,22 +34,22 @@ class CustomQueue():
     def enqueue(self, data):
         new_node = Node(data)
         if self.IsFull():
-            self.rpt = self.size % (self.rpt + 1) #rpt == mod of size and rpt
-            self.__setitem__(self.rpt, new_node.data)
-            self.rpt += 1
-            # self.size += 1  # The array will be continously increased.
+            print("Queue is Full")
+            return
         
         self.__setitem__(self.rpt, new_node.data)
-        self.rpt += 1
-        # self.size +=  1
+        self.rpt = (self.rpt + 1) % self.size       #increament the pointer
 
     def dequeu(self):
         if self.IsEmpty():
             print("Cant dequeue an empty Queue")
+            return None
         
         item = self.__getitem__(self.lpt)
-        self.lpt += 1
-        self. size -= 1
+        self.__setitem__(self.lpt, self.data[self.lpt + 1])    #mechanism to shift the item left
+
+        self.lpt = (self.lpt + 1) % self.size 
+        self.__setitem__((self.size - self.lpt), None)          #clears that index slot to None    
         
         return item
 
@@ -69,6 +66,7 @@ class CustomQueue():
 class DeQue():
     def __init__(self, size):
         self.size = size
+        self.count = 0
         self.data = [None] * size
         self.rpt = 0
         self.lpt = 0
@@ -150,13 +148,15 @@ cq.enqueue(2)
 cq.enqueue(4)
 cq.enqueue(6)
 cq.enqueue(8)
-cq.enqueue(10)  
-# cq.enqueue(12)   #Test for circular queue
-# cq.enqueue(14)
+cq.enqueue(10)    #Test for circular queue
+cq.enqueue(12)   
+cq.enqueue(14)
 
 print(cq)
 print(cq.size)
 print(cq.IsFull())
 print(cq.IsEmpty())
 print(f"Pop from the left {cq.dequeu()}")
+print(cq)
+cq.enqueue(10)
 print(cq)
