@@ -16,17 +16,17 @@ class CustomQueue():
 
 
     def IsFull(self):
-        return (self.rpt + 1) % self.size == self.lpt  #the rpt pointer wraps around
+        return self.count == self.size
     
     def __getitem__(self, index):
         #return index at assignment
-        if index < 0 or index >= self.rpt:
+        if index < 0 or index > (self.rpt) % self.size:
             raise IndexError("Index Out of range.")
         else:
             return self.data[index]
         
     def __setitem__(self, index, value):
-        if index < 0 or index > self.rpt:
+        if index < 0 or index > (self.rpt) % self.size:
             raise IndexError("Index out of range.")
         else:
             self.data[index] = value
@@ -56,8 +56,9 @@ class CustomQueue():
 
     def __str__(self):
         result = []
-        for i in range(self.rpt):
-            current = self.__getitem__(i)
+        for i in range(self.size):
+            index = (self.lpt + i) % self.size
+            current = self.data[index]
             result.append(f"{str(current)} - > ")
         result.append("END")
         return " ".join(result)
@@ -76,7 +77,7 @@ class DeQue():
         return self.count == 0
 
     def IsFull(self):
-        return self.count == self.size     #creates a circular movement
+        return self.count == self.size     #enables for a circular movement
 
     def enqueue(self, data):
         new_node = Node(data)
@@ -150,10 +151,9 @@ class DeQue():
     
     def __str__(self):
         result = []
-        index = self.lpt
+
         for i in range(self.size): #active nodes are only self.rpt - 1
             result.append(str(self.data[i]))
-            index = (self.lpt + 1) % self.size
         result.append("END")
         return " - > ".join(result)
     
@@ -166,9 +166,9 @@ cq.enqueue(2)
 cq.enqueue(4)
 cq.enqueue(6)
 cq.enqueue(8)
-cq.enqueue(10)    #Test for circular queue
-# cq.enqueue(12)   
-# cq.enqueue(14)
+cq.enqueue(10)                     #Test for circular queue
+cq.enqueue(12)   
+cq.enqueue(14)                     #Queue is Full
 
 deque.enqueue(2)
 deque.enqueue(4)
@@ -179,7 +179,7 @@ deque.enqueue(12)
 deque.enqueue(14)                  #DQueue is Full...
 
 
-print(deque)       # 2 - > 4 - > 6 - > 8 - > 10 - > 12 - > END
+print(deque)                                    # 2 - > 4 - > 6 - > 8 - > 10 - > 12 - > END
 print(f"Pop from the left {deque.dequeue()}")   #Pop from the left 2
 print(deque)                                    #None - > 4 - > 6 - > 8 - > 10 - > 12 - > END
 print(deque.push_first(30))
@@ -197,11 +197,10 @@ deque.enqueue(55)
 print(deque)                                    #55 - > None - > 6 - > 8 - > 10 - > 45 - > END
 print(deque.count)                              #5
 
-# print(cq)
-# print(cq.size)
-# print(cq.IsFull())
-# print(cq.IsEmpty())
-# print(f"Pop from the left {cq.dequeu()}")
-# print(cq)
-# cq.enqueue(14)
-# print(cq)
+print(cq)                                         #2 - >  4 - >  6 - >  8 - >  10 - >  12 - >  END  
+print(cq.size)                                    #6
+print(f"Pop from the left {cq.dequeu()}")         #Pop from the left 2
+print(cq)                                         #4 - >  6 - >  8 - >  10 - >  12 - >  None - >  END
+cq.enqueue(14)                                    #
+cq.enqueue(16)                                    #Queue is Full
+print(cq)                                         #4 - >  6 - >  8 - >  10 - >  12 - >  14 - >  END

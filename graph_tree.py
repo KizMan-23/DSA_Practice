@@ -51,11 +51,12 @@ def has_undirectedpath(src, dst, graph):
     ans = False
     for neighbor in graph[src]:
         if neighbor not in vis:
+            vis.add(neighbor)
             ans = ans or has_undirectedpath(src, dst, graph)
     
     return ans
 
-print(has_undirectedpath("A", "D", un_graph))
+# print(has_undirectedpath("A", "D", un_graph))
 
 #Q3: Number of provinces in a graph
 vec = 10
@@ -80,3 +81,41 @@ def unique_province(edges):
 
 
 #TREE ALGO..
+
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+class binary_tree():
+    def __init__(self):
+        self.root = None
+
+    def insert(self, key):
+        new_node = Node(key)
+        if not self.root:
+            self.root = new_node.data
+            return
+        else:
+            if key < self.root:
+                self.left = new_node.data
+            else:
+                self.right = new_node.data
+
+    def __str__(self):
+        queue = []
+        pass
+        
+        
+
+bts = binary_tree()
+
+bts.insert(5)
+bts.insert(7)
+bts.insert(2)
+bts.insert(4)
+bts.insert(9)
+
+print(bts)
+    

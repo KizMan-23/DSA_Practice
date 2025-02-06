@@ -6,7 +6,7 @@ class Node:
 class CustomStack():
     def __init__(self, size):
         self.data = [None] * size
-        self.size = size #for static-sized stack, size starts at zero
+        self.size = size    #for static-sized stack, size starts at zero
         self.ptr = -1
     
 
@@ -66,7 +66,6 @@ class CustomStack():
         new_node = Node(value)
         self.ptr += 1
         self.data[self.ptr] = new_node.data
-        # self.__setitem__(self.ptr, new_node.data)
 
         # self.size +=1 -- In dynamic stacks, size should not ++ or -- with new items
 
@@ -79,7 +78,7 @@ class CustomStack():
     
     def __str__(self):
         for i in range(self.ptr + 1):
-            print(f"{self.data} - > ")
+            print(f"{str(self.data)} - > ")
         print("END")
 
     
@@ -93,7 +92,7 @@ cst.push(40)
 cst.push(50)
 print(f"Stack size before doubling of the size {cst.size}")
 
-cst.push(60) #custom dynamic stack
+cst.push(60)           #custom dynamic stack
 cst.push(66)
 
 print(f"stack size of {cst.size} after doubling in size")
