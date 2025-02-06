@@ -76,20 +76,7 @@ class DeQue():
         return self.count == 0
 
     def IsFull(self):
-        return (self.rpt + 1) % self.size == self.lpt     #creates a circular movement
-        
-    def __getitem__(self, index):
-        #return index at assignment
-        if index < 0 or index >= self.rpt:
-            raise IndexError("Index Out of range.")
-        else:
-            return self.data[index]
-        
-    def __setitem__(self, index, value):
-        if index < 0 or index > self.rpt:
-            raise IndexError("Index out of range.")
-        else:
-            self.data[index] = value
+        return self.count == self.size     #creates a circular movement
 
     def enqueue(self, data):
         new_node = Node(data)
@@ -97,28 +84,30 @@ class DeQue():
             print("DQueue is Full...")
             return
         
-        self.__setitem__(self.rpt, new_node.data)
+        # self.__setitem__(self.rpt, new_node.data)
+        self.data[self.rpt] = new_node.data
         self.rpt = (self.rpt + 1) % self.size
 
         self.count += 1
         
-        return f"{new_node.data} added"
 
     def dequeue(self):
         if self.IsEmpty():
             print("Cant dequeue an empty Queue")
             return None
         
-        item = self.__getitem__(self.lpt)
-        self.__setitem__(self.lpt, self.enqueue(None))
+        # item = self.__getitem__(self.lpt)
+        item = self.data[self.lpt]
+        self.data[self.lpt] = None
         self.lpt  = (self.lpt + 1) % self.size
         self.count -= 1
         
         return item
 
     def pop_first(self):
-        item = self.__getitem__(self.lpt)
-        # self.__setitem__(self.lpt, self.enqueue(None))
+        # item = self.__getitem__(self.lpt)
+        item = self.data[self.lpt]
+        self.data[self.lpt] = None
         self.lpt = (self.lpt + 1) % self.size
         
         self.count -= 1
@@ -126,28 +115,34 @@ class DeQue():
         return item
 
     def pop_last(self):
-        index = (self.rpt - 1) % self.size
-        item = self.__getitem__(index)
-
-        # self.__setitem__(self.rpt, self.enqueue(None))
+        self.rpt = (self.rpt - 1) % self.size
+        item = self.data[self.rpt]
+        self.data[self.rpt]  = None
 
         self.count -= 1
-
         return item
     
     def push_first(self, data):
-        #substitutes at the first position
+        #switch the front pionter back
         new_node = Node(data)
-        self.__setitem__(self.lpt, new_node.data)
+        index = (self.lpt - 1) % self.size
+        self.data[index] = None
+        self.data[index] = new_node.data
+
+        self.lpt = (self.lpt - 1) % self.size
+        
+        self.count += 1      
         
         return f"{new_node.data} added"
         
-
     def push_last(self, data):
-        #subsitute at the last position
+        #switch the rear pointer forward
         new_node = Node(data)
-        index = (self.rpt - 1) % self.size
-        self.__setitem__(index, new_node.data)
+        index = (self.rpt) % self.size
+        self.data[index]  = None
+        self.data[index] = new_node.data
+
+        self.rpt = (self.rpt + 1) % self.size
 
         self.count += 1
         
@@ -155,11 +150,12 @@ class DeQue():
     
     def __str__(self):
         result = []
-        for i in range(self.rpt):
-            current = self.__getitem__(i)
-            result.append(f"{str(current)} - > ")
+        index = self.lpt
+        for i in range(self.size): #active nodes are only self.rpt - 1
+            result.append(str(self.data[i]))
+            index = (self.lpt + 1) % self.size
         result.append("END")
-        return " ".join(result)
+        return " - > ".join(result)
     
 
 
@@ -179,20 +175,27 @@ deque.enqueue(4)
 deque.enqueue(6)
 deque.enqueue(8)
 deque.enqueue(10)
-# deque.enqueue(12)
+deque.enqueue(12)
+deque.enqueue(14)              #DQueue is Full...
 
 
-print(deque)
-print(f"Pop from the left {deque.dequeue()}")
-print(deque.data)
+print(deque)       # 2 - > 4 - > 6 - > 8 - > 10 - > 12 - > END
+print(f"Pop from the left {deque.dequeue()}")   #Pop from the left 2
+print(deque)                                    #None - > 4 - > 6 - > 8 - > 10 - > 12 - > END
 print(deque.push_first(30))
-print(deque.data)
+print(deque)                                    #30 - > 4 - > 6 - > 8 - > 10 - > 12 - > END
 print(deque.push_last(40))
-print(deque.data)
-print(deque.pop_first())
-print(deque.pop_last())
+print(deque)                                    #40 - > 4 - > 6 - > 8 - > 10 - > 12 - > END
+print(deque.pop_first())                        #40
+print(deque.pop_last())                         # None
+print(deque)                                    #None - > 4 - > 6 - > 8 - > 10 - > 12 - > END
+print(deque.pop_first())                        # 4
+print(deque.pop_last())                         # 12
+print(deque)                                    #None - > None - > 6 - > 8 - > 10 - > None - > END
 deque.enqueue(45)
-print(deque)
+deque.enqueue(55)
+print(deque)                                    #55 - > None - > 6 - > 8 - > 10 - > 45 - > END
+print(deque.count)                              #5
 
 
 # print(cq)
