@@ -94,19 +94,23 @@ class DeQue():
     def enqueue(self, data):
         new_node = Node(data)
         if self.IsFull():
-            print("Queue is Full...")
+            print("DQueue is Full...")
             return
         
         self.__setitem__(self.rpt, new_node.data)
         self.rpt = (self.rpt + 1) % self.size
 
         self.count += 1
+        
+        return f"{new_node.data} added"
 
-    def dequeue(self, index):
+    def dequeue(self):
         if self.IsEmpty():
             print("Cant dequeue an empty Queue")
+            return None
         
         item = self.__getitem__(self.lpt)
+        self.__setitem__(self.lpt, self.enqueue(None))
         self.lpt  = (self.lpt + 1) % self.size
         self.count -= 1
         
@@ -114,30 +118,40 @@ class DeQue():
 
     def pop_first(self):
         item = self.__getitem__(self.lpt)
-        self.lpt += 1
-        #func(traverse_left)
+        # self.__setitem__(self.lpt, self.enqueue(None))
+        self.lpt = (self.lpt + 1) % self.size
+        
         self.count -= 1
 
         return item
 
     def pop_last(self):
-        item = self.__getitem__(self.rpt - 1)
-        self.rpt -= 1
+        index = (self.rpt - 1) % self.size
+        item = self.__getitem__(index)
+
+        # self.__setitem__(self.rpt, self.enqueue(None))
+
         self.count -= 1
 
         return item
     
     def push_first(self, data):
+        #substitutes at the first position
         new_node = Node(data)
         self.__setitem__(self.lpt, new_node.data)
-        self.lpt += 1
-        self.count += 1
+        
+        return f"{new_node.data} added"
+        
 
     def push_last(self, data):
+        #subsitute at the last position
         new_node = Node(data)
-        self.__setitem__(self.rpt - 1, new_node.data)
-        self.rpt -= 1
+        index = (self.rpt - 1) % self.size
+        self.__setitem__(index, new_node.data)
+
         self.count += 1
+        
+        return f"{new_node.data} added"
     
     def __str__(self):
         result = []
@@ -157,20 +171,35 @@ cq.enqueue(4)
 cq.enqueue(6)
 cq.enqueue(8)
 cq.enqueue(10)    #Test for circular queue
-cq.enqueue(12)   
-cq.enqueue(14)
+# cq.enqueue(12)   
+# cq.enqueue(14)
 
 deque.enqueue(2)
 deque.enqueue(4)
 deque.enqueue(6)
 deque.enqueue(8)
+deque.enqueue(10)
+# deque.enqueue(12)
 
 
-print(cq)
-print(cq.size)
-print(cq.IsFull())
-print(cq.IsEmpty())
-print(f"Pop from the left {cq.dequeu()}")
-print(cq)
-cq.enqueue(10)
-print(cq)
+print(deque)
+print(f"Pop from the left {deque.dequeue()}")
+print(deque.data)
+print(deque.push_first(30))
+print(deque.data)
+print(deque.push_last(40))
+print(deque.data)
+print(deque.pop_first())
+print(deque.pop_last())
+deque.enqueue(45)
+print(deque)
+
+
+# print(cq)
+# print(cq.size)
+# print(cq.IsFull())
+# print(cq.IsEmpty())
+# print(f"Pop from the left {cq.dequeu()}")
+# print(cq)
+# cq.enqueue(14)
+# print(cq)
