@@ -176,7 +176,7 @@ deque.enqueue(6)
 deque.enqueue(8)
 deque.enqueue(10)
 deque.enqueue(12)
-deque.enqueue(14)              #DQueue is Full...
+deque.enqueue(14)                  #DQueue is Full...
 
 
 print(deque)       # 2 - > 4 - > 6 - > 8 - > 10 - > 12 - > END
@@ -196,7 +196,6 @@ deque.enqueue(45)
 deque.enqueue(55)
 print(deque)                                    #55 - > None - > 6 - > 8 - > 10 - > 45 - > END
 print(deque.count)                              #5
-
 
 # print(cq)
 # print(cq.size)
