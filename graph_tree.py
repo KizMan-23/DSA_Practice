@@ -81,41 +81,45 @@ def unique_province(edges):
 
 
 #TREE ALGO..
-
-class Node():
+class binary_tree():
     def __init__(self, data):
         self.data = data
         self.left = None
         self.right = None
-
-class binary_tree():
-    def __init__(self):
-        self.root = None
-
-    def insert(self, key):
-        new_node = Node(key)
-        if not self.root:
-            self.root = new_node.data
-            return
-        else:
-            if key < self.root:
-                self.left = new_node.data
+    
+    def insert(self, value):
+        if value < self.data:
+            if self.left is None:
+                self.left = binary_tree(value)
             else:
-                self.right = new_node.data
+                self.left.insert(value)
+        else:
+            if self.right is None:
+                self.right = binary_tree(value)
+            else:
+                self.right.insert(value)
+        
+    def inorder_traverse(self):
+        pass
 
-    def __str__(self):
-        queue = []
+    def preorder_traverse(self):
+        pass
+
+    def  postorder_traverse(self):
         pass
         
-        
 
-bts = binary_tree()
+bts = binary_tree(10)
 
+# bts.insert(10)
 bts.insert(5)
-bts.insert(7)
-bts.insert(2)
 bts.insert(4)
-bts.insert(9)
+bts.insert(2)
+bts.insert(1)
+bts.insert(3)
+bts.insert(22)
+bts.insert(11)
+bts.insert(12)
 
-print(bts)
-    
+
+print(bts.left.left.left.value)
