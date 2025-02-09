@@ -82,44 +82,79 @@ def unique_province(edges):
 
 #TREE ALGO..
 class binary_tree():
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, value):
+        self.value = value
         self.left = None
+        self.content = None
         self.right = None
     
-    def insert(self, value):
-        if value < self.data:
+    def insert(self, value, content = None):
+        if value < self.value: 
             if self.left is None:
                 self.left = binary_tree(value)
+                self.left.content = content
             else:
-                self.left.insert(value)
+                self.left.insert(value, content)
         else:
             if self.right is None:
                 self.right = binary_tree(value)
+                self.right.content = content
             else:
-                self.right.insert(value)
+                self.right.insert(value, content)
         
     def inorder_traverse(self):
-        pass
+        # to go as far left as available at every right
+        #returns in increasing order
+        if self.left:
+            self.left.inorder_traverse()
+        print(self.value)
+        if self.right:
+            self.right.inorder_traverse()
 
     def preorder_traverse(self):
-        pass
-
-    def  postorder_traverse(self):
-        pass
+        print(self.value)
+        if self.left:
+            self.left.preorder_traverse()
         
+        if self.right:
+            self.right.preorder_traverse()
+
+
+    def postorder_traverse(self):
+        if self.left:
+            self.left.postorder_traverse()
+        
+        if self.right:
+            self.right.postorder_traverse()
+        print(self.value)
+
+    def find(self, value):
+        if value < self.value:
+            if self.left is None:
+                return None
+            else:
+                return self.left.find(value)
+        elif value > self.value:
+            if self.right is None:
+                return None
+            else:
+                return self.right.find(value)
+        else:
+            return self
 
 bts = binary_tree(10)
 
 # bts.insert(10)
-bts.insert(5)
+bts.insert(5, content= {"data": "Hello World"})  #To store and append data in tree node storage
 bts.insert(4)
-bts.insert(2)
+bts.insert(2, {"data": "Hello World"})
 bts.insert(1)
-bts.insert(3)
+bts.insert(3, {"data": "Hello World"})
 bts.insert(22)
-bts.insert(11)
+bts.insert(11, {"data": "Hello World"})
 bts.insert(12)
 
 
-print(bts.left.left.left.value)
+print(bts.left.left.left.right.value)
+
+print(bts.find(5).content['data'])
