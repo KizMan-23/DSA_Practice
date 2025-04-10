@@ -87,11 +87,70 @@ class QuickSort:
         return self.arr
 
 
-
-   
-
 arry: list  = [7, 12, 14, 13, 6, 8, 2, 9, 11, 10]
-
-
 sort_list = QuickSort(arry).sorted()
-print(f"Quick Sort algo {sort_list}")
+# print(f"Quick Sort algo {sort_list}")
+
+
+def MergeSort(arr: list) -> int:
+    len_arr = len(arr)
+    l_arr = []
+    r_arr = []
+
+    if len_arr <= 1:  #base case
+        return
+    else:
+        middle = len_arr // 2 #flat division
+        l_arr = [None]* middle  #left array
+        r_arr = [None] * (len_arr - middle)  #right array
+ 
+        i = 0  #index for the left array
+        j = 0  #index for the right array
+        
+        while i < len_arr:
+            if i < middle:
+                l_arr[i] = arr[i]
+                i += 1
+            else:
+                r_arr[j] = arr[i]
+                i += 1
+                j += 1
+
+    MergeSort(l_arr)
+    MergeSort(r_arr)
+    Merge(l_arr, r_arr, arr)
+
+
+def Merge(left_array: list, right_array: list, array: list):
+    array_size = len(array)
+    left_size = len(left_array)
+    right_size = len(right_array)
+    i, l, r = 0, 0, 0  #indices
+
+    while l < left_size and r < right_size:
+        if left_array[l] < right_array[r]:
+            array[i] = left_array[l]
+            i += 1
+            l += 1
+        else:
+            array[i] = right_array[r]
+            r += 1
+            i += 1
+    
+    while l < left_size:
+        array[i] = left_array[l]
+        i += 1
+        l += 1
+
+    while r < right_size:
+        array[i] = right_array[r]
+        r += 1
+        i += 1
+
+    for a in range(array_size):  #this prints each sorted subarray
+        val = array[a]
+        print(val, end=" - > ")
+    print(".")
+
+MergeSort(arry)
+
