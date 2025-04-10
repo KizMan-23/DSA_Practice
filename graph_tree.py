@@ -89,35 +89,36 @@ class Tree_Node():
 class binary_search_tree():
     def __init__(self):
         self.root = None
-        # self.data = None
+        self.data = None
     
     def insert(self, data):
         tr_node = Tree_Node(data)
         if not self.root:
+            self.data = tr_node.data
             self.root = tr_node
         
-        if data < tr_node.data:                    # '<' not supported between instances of 'Tree_Node' and 'int'
-            if tr_node.left is None:
-                tr_node.left = Tree_Node(data)
+        if data < self.root.data:  # '<' not supported between instances of 'Tree_Node' and 'int'
+            if  self.root.left is None:
+                self.root.left = Tree_Node(data)
+                self.root.data = tr_node.data
             else:
-                tr_node.left.insert(data)
+                self.root.left.insert(data)
         else:
-            if tr_node.right is None:
-                tr_node.right = Tree_Node(data)
+            if self.root.right is None:
+                self.root.right = Tree_Node(data)
+                self.root.data = tr_node.data
             else:
-                tr_node.right.insert(data)
+                self.root.right.insert(data)
+
 
     def inorder_traversal(self):
         tr_node = Tree_Node(self)
-        if tr_node.left:
-            tr_node.left.inorder_traversal ()
-        print(tr_node.left.data)
-        if tr_node.right:
-            tr_node.right.inorder_traversal() 
+        if self.root.left:
+            self.root.left.inorder_traversal()
+        print(self.root.left)
+        if self.root.right:
+            self.root.right.inorder_traversal() 
      
-    def __str__(self):
-        pass
-
 
 bin = binary_search_tree()
 bin.insert(5)

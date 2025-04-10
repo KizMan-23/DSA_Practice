@@ -115,6 +115,7 @@ class CustomLinkedList():
             current = current.next
         current.data = value
 
+
     def __delitem__(self, index):
         # Delete item at obj[index]
         if index < 0 or index > self.size:

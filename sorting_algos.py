@@ -1,3 +1,6 @@
+import numpy as np
+import random
+
 #selection sort
 #Insertion sort
 #bubble sort
@@ -5,30 +8,70 @@
 #merge sort
 #shell sort
 
-dic = {"data": "first line",
-       "comp_1": "another instance",
-       "comp_2": "building a list"}
+class Quick_Sort():
+    def __init__(self, arr: list):
+        self.arr = arr
+        self.size = len(arr)
+        self.pvt = arr[self.size - 1]
+        self.pnt_i = -1
+        self.pnt_j = 0 
+     
+    def arrange(self):
+        for _ in range((self.size - 1)):
+            if self.arr[self.pnt_j] >= self.pvt:
+                self.pnt_j += 1
+            else:
+                self.pnt_i += 1
+
+                temp = self.arr[self.pnt_i]
+                self.arr[self.pnt_i] = self.arr[self.pnt_j]
+                self.arr[self.pnt_j] = temp
+
+                self.pnt_j += 1
+
+        self.pnt_i += 1
+
+        temp = self.arr[self.pnt_i]
+        self.arr[self.pnt_i] = self.arr[self.pnt_j]
+        self.arr[self.pnt_j] = temp
+        
+        return self.arr
+
+    def __getindex__(self, value):
+        for a in range(self.size):
+           while self.arr:
+               if value ==  self.arr[a]:
+                   index = a
+        
+        return index
+
+    def partition(self):   # np.partition()
+        pvt_index = self.__getindex__(self.pvt)
+        part_a = self.arr[:pvt_index - 1]
+        part_b = self.arr[pvt_index + 1: ]
+        
+        return part_a, part_b
+    
+    def final_sort(self):
+
+        final_list = []
+        for parts in self.partition():
+            final_list.append(self.arrange(parts), self.pvt)
+
+        ano_list = []
+        while self.arr:
+            first = self.arrange(self.arr)
+            
+            for part in self.partition(first):
+                ano_list.append(part, self.pvt)
+
+        return final_list, ano_list
 
 
-# for idx, element in enumerate(dic):
-#     print(f"the index is of {idx} while the key is {element}")
-#     print(f"'{dic[element]}', is the content of this index")
+   
 
+arry: list  = [7, 12, 14, 13, 6, 8, 2, 9, 11, 10]
 
-dic_3 = {
-    "A": {0: None},
-    "B": {2: "A"},
-    "C": {5: "A"},
-    "D": {7: "B"},
-    "E": {8: "C"}
-}
-
-for idx, element in enumerate(dic_3):
-    # print(f"'{dic_3[element]}', is the content of this index")
-
-    for a, b in enumerate(dic_3[element]):
-        print(f"{b} is the distance from {element} to {dic_3[element][b]}")
-
-
-for ky, val in dic_3.items():
-    print(f"using items function to print key of {ky} with values {val}")
+sorter = Quick_Sort(arry)
+sort_list = sorter.final_sort()
+print(f"Quick Sort algo {sort_list}")
