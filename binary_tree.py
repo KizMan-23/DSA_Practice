@@ -80,59 +80,6 @@ print(bts.find(5).content['data'])
 
 
 
-class Tree_Node():
-    def __init__(self, data):
-        self.data = data
-        self.left = None
-        self.right = None
-
-class binary_search_tree():
-    def __init__(self):
-        self.root = None
-        self.data = None
-    
-    def insert(self, data):
-        tr_node = Tree_Node(data)
-        if not self.root:
-            self.data = tr_node.data
-            self.root = tr_node
-        
-        if data < self.root.data:  # '<' not supported between instances of 'Tree_Node' and 'int'
-            if  self.root.left is None:
-                self.root.left = Tree_Node(data)
-                self.root.data = tr_node.data
-            else:
-                self.root.left.insert(data)
-        else:
-            if self.root.right is None:
-                self.root.right = Tree_Node(data)
-                self.root.data = tr_node.data
-            else:
-                self.root.right.insert(data)
-
-
-    def inorder_traversal(self):
-        tr_node = Tree_Node(self)
-        if self.root.left:
-            self.root.left.inorder_traversal()
-        print(self.root.left)
-        if self.root.right:
-            self.root.right.inorder_traversal() 
-     
-
-bin = binary_search_tree()
-bin.insert(5)
-bin.insert(10)
-bin.insert(4)
-bin.insert(3)
-bin.insert(11)
-bin.insert(22)
-bin.insert(15)
-bin.insert(2)
-bin.insert(3)
-bin.insert(1)
-
-print(bin.inorder_traversal())
 
 #Q1: check if the path exists between src & dst (directed acyclic graph. i.e--one path). return true or false
 #Sample graph

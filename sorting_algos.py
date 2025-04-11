@@ -43,7 +43,7 @@ class Quick_Sort():
             ar = self.arr
             s = self.start
             e = self.end
-            if ar[e] <= s:
+            if ar[e] <= s: #base case
                 pvt_index = self.partition()
                 self.quick_sort(self.arr, s, pvt_index -1)
                 self.quick_sort(self.arr, pvt_index + 1, e)
@@ -152,5 +152,7 @@ def Merge(left_array: list, right_array: list, array: list):
         print(val, end=" - > ")
     print(".")
 
-MergeSort(arry)
+# MergeSort(arry)
 
+
+#ADJANCY LIST
