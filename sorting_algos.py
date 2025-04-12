@@ -6,7 +6,7 @@
 #shell sort
 
 
-class QuickSort:   #log0(log n)
+class QuickSort:   #log0(n log n)
     def __init__(self, arr: list):
         self.arr = arr
 
@@ -46,7 +46,7 @@ sort_list = QuickSort(array).sorted()
 # print(f"Quick Sort algo {sort_list}")
 
 
-def MergeSort(arr: list) -> int:
+def MergeSort(arr: list) -> int:    #log0(n log n)
     len_arr = len(arr)
     l_arr = []
     r_arr = []
@@ -130,11 +130,76 @@ def Min_Value(arr, start: int, end:int) -> int:
 
 array: list  = [7, 12, 14, 13, 6, 8, 2, 9, 11, 10]
 
-print(array) 
+# print(array) 
 
-print(SelectionSort(array))
-
-
+# print(SelectionSort(array))
 
 
+def BubbleSort(arr:list):  #log0(n^2)
 
+    for a in range(len(arr) - 1): 
+        for b in range(len(arr) - a - 1):
+            if arr[b] > arr[b+1]:
+                arr[b], arr[b+1] = arr[b + 1], arr[b]
+    
+    return arr 
+
+# bub_sort = BubbleSort(array)
+# print(bub_sort)
+
+
+def InterpolationProbe(arr:list, value:int):  #Log0(log(log n))
+    #Improvement of Binary Search
+    #Most Effective for Semi-Uniformly distributed array
+    low = 0
+    high = len(arr) - 1
+    while value >= arr[low] and value <= arr[high] and low <= high:
+        probe: int = low + (high - low) * (value - arr[low] ) // (arr[high] - arr[low])
+
+        print(f"Probe: {probe}")
+        if arr[probe] == value:
+            return probe
+        elif arr[probe] < value:
+            low = probe + 1
+        else:
+            high = probe - 1
+    
+    return -1
+
+def InterpolationSearch(arr:list, value: int):
+    index = InterpolationProbe(arr, value)
+
+    if index != -1:
+        print(f"Element found at index: {index}")
+    else:
+        print("Element Not Found")
+
+# interpolation_list = [2,3,4,6,7,8,10]
+
+# InterpolationSearch(interpolation_list, 7)
+
+# interpol_list = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+
+# InterpolationSearch(interpol_list, 128)
+
+
+def BinarySearch(arr:list, value:int):
+    low = 0
+    high = len(arr) - 1     
+
+    while low <= high:
+        middle = low + (high - low) // 2  #just plain high // 2
+        mid_ind = array[middle]
+        print(f"Middle: {middle}")
+
+        if value < mid_ind:
+            high = middle - 1
+        elif value > mid_ind:
+            low = middle + 1
+        else:
+            return middle
+    return -1
+
+bin_list = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+
+print(BinarySearch(bin_list, 32))
