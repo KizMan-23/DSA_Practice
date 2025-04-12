@@ -1,6 +1,3 @@
-import numpy as np
-import random
-
 #selection sort
 #Insertion sort
 #bubble sort
@@ -8,51 +5,8 @@ import random
 #merge sort
 #shell sort
 
-class Quick_Sort():
-    def __init__(self, arr: list):
-        self.arr = arr
-        self.start = 0
-        self.size = len(arr)
-        self.end = self.size - 1
-        self.pvt = arr[self.size - 1]
-        self.pnt_i = -1
-        self.pnt_j = 0 
-     
-    def partition(self):
-        for _ in range(self.size - 1):
-            if self.arr[self.pnt_j] >= self.pvt:
-                self.pnt_j += 1
-            else:
-                self.pnt_i += 1
 
-                temp = self.arr[self.pnt_i]
-                self.arr[self.pnt_i] = self.arr[self.pnt_j]
-                self.arr[self.pnt_j] = temp
-
-                self.pnt_j += 1
-
-        self.pnt_i += 1
-
-        temp = self.arr[self.pnt_i]
-        self.arr[self.pnt_i] = self.arr[self.size - 1]   #index at the end
-        self.arr[self.size - 1] = temp
-        
-        return self.pnt_i
-
-    def quick_sort(self, ar, s, e):   # np.partition()
-            ar = self.arr
-            s = self.start
-            e = self.end
-            if ar[e] <= s: #base case
-                pvt_index = self.partition()
-                self.quick_sort(self.arr, s, pvt_index -1)
-                self.quick_sort(self.arr, pvt_index + 1, e)
-            else:
-                return
-
-
-#NEW QUICK_SORT
-class QuickSort:
+class QuickSort:   #log0(log n)
     def __init__(self, arr: list):
         self.arr = arr
 
@@ -87,8 +41,8 @@ class QuickSort:
         return self.arr
 
 
-arry: list  = [7, 12, 14, 13, 6, 8, 2, 9, 11, 10]
-sort_list = QuickSort(arry).sorted()
+array: list  = [7, 12, 14, 13, 6, 8, 2, 9, 11, 10]
+sort_list = QuickSort(array).sorted()
 # print(f"Quick Sort algo {sort_list}")
 
 
@@ -152,7 +106,35 @@ def Merge(left_array: list, right_array: list, array: list):
         print(val, end=" - > ")
     print(".")
 
-# MergeSort(arry)
+# MergeSort(array)
 
 
-#ADJANCY LIST
+def SelectionSort(arr:list):  #Log0(n^2)
+    array_size = len(arr)
+   
+    for a in range(array_size):
+        min_index = Min_Value(arr, a, len(arr))
+        #swap
+        arr[a], arr[min_index] = arr[min_index], arr[a]
+    
+    return arr  
+
+def Min_Value(arr, start: int, end:int) -> int:
+    i = start
+        
+    for b in range(start + 1, end):
+        if arr[i] > arr[b]:
+            i = b
+
+    return i     
+
+array: list  = [7, 12, 14, 13, 6, 8, 2, 9, 11, 10]
+
+print(array) 
+
+print(SelectionSort(array))
+
+
+
+
+
