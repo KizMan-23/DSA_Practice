@@ -189,7 +189,7 @@ def BinarySearch(arr:list, value:int):
 
     while low <= high:
         middle = low + (high - low) // 2  #just plain high // 2
-        mid_ind = array[middle]
+        mid_ind = arr[middle]
         print(f"Middle: {middle}")
 
         if value < mid_ind:
