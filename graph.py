@@ -28,9 +28,7 @@ class ad_Graph():
                 print(f" {b}", end=" ")   
 
             print("")
-            
-
-
+        #__str__ must have a return statement
 
 new_graph = ad_Graph(5)
 
@@ -48,67 +46,67 @@ new_graph.addEdge(2, 4)
 new_graph.addEdge(4, 2)
 new_graph.addEdge(4, 0)
 
-print(new_graph.checkEdge(0,1))
-print(new_graph.checkEdge(3,4))
-print(new_graph)
-
-
+# print(new_graph.checkEdge(0,1))
+# print(new_graph.checkEdge(3,4))
+# print(new_graph)
 
 class Node:
     def __init__(self, data):
         self.data = data
         self.next = None
 
-class Adj_Graph():
+class Adj_Graph:
     def __init__(self, size):
         self.size = size
         self.nodes = []
         self.adlist = []
 
     def addNode(self, value):
-        new_list = Node(value)
-
         if len(self.nodes) < self.size:
-            self.nodes.append(new_list)
-    
-    def addEdge(self, src, dst):
-        current_list = self.nodes[src]
-        current_list = Node(current_list)
-        next_node = self.nodes[dst][0]
+            new_node = Node(value)
+            self.nodes.append(new_node)
+            self.adlist.append(None)  # Initialize an empty adjacency list
 
-        current_list.next = next_node
+    def addEdge(self, src, dst):
+        new_adj_node = Node(dst)  # Store dst index in adjacency list
+        new_adj_node.next = self.adlist[src]
+        self.adlist[src] = new_adj_node
 
     def checkEdge(self, src, dst):
-        current_list = self.nodes[src]
-        
-        for a in current_list:
-            if a == self.nodes[dst]:
+        current = self.adlist[src]
+        while current:
+            if current.data == dst:
                 return True
-            else:
-                return False
-    
+            current = current.next
+        return False
+
     def __str__(self):
-        pass
-    
+        result = []
+        for i in range(len(self.nodes)):
+            adj_str = []
+            current = self.adlist[i]
+            while current:
+                adj_str.append(str(current.data))
+                current = current.next
+            result.append(f"Vertex {i}: {' -> '.join(adj_str)}")
+        return '\n'.join(result)
 
+new_agraph = Adj_Graph(5)
 
+new_agraph.addNode("A")
+new_agraph.addNode("B")
+new_agraph.addNode("C")
+new_agraph.addNode("D")
+new_agraph.addNode("E")
 
-new_graph = Adj_Graph(5)
+new_agraph.addEdge(0, 1)
+new_agraph.addEdge(1, 2)
+new_agraph.addEdge(1, 4)
+new_agraph.addEdge(2, 3)
+new_agraph.addEdge(2, 4)
+new_agraph.addEdge(4, 2)
+new_agraph.addEdge(4, 0)
 
-new_graph.addNode("A")
-new_graph.addNode("B")
-new_graph.addNode("C")
-new_graph.addNode("D")
-new_graph.addNode("E")
-
-new_graph.addEdge(0, 1)
-new_graph.addEdge(1, 2)
-new_graph.addEdge(1, 4)
-new_graph.addEdge(2, 3)
-new_graph.addEdge(2, 4)
-new_graph.addEdge(4, 2)
-new_graph.addEdge(4, 0)
-
-print(new_graph.checkEdge(0,1))
-print(new_graph.checkEdge(3,4))
-print(new_graph)
+# print(new_agraph.checkEdge(0,1))
+# print(new_agraph.checkEdge(3,4))
+print(new_agraph)
