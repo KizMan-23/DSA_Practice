@@ -124,7 +124,7 @@ class Graph():
     def __repr__(self):
         graph_str = ""
 
-        for node, neighbors in self.adj_list:
+        for node, neighbors in self.adj_list.items():
             graph_str += f"{node} -> {neighbors}\n"
         return graph_str 
 
@@ -139,21 +139,21 @@ class Graph():
             raise ValueError("Node does Not Exist")
         else:
             for neighbor in self.adj_list.values():
-                neighbor = neighbor.discard(node)
+                neighbor = neighbor.discard(node)  #discard..
             
             del self.adj_list[node]
-            # self.adj_list[node] = None
-            # del node
+            
+            
 
     def add_edge(self, src_node, dst_node, weighted = None):
         if src_node not in self.adj_list:
-            self.adj_list.add_node(src_node)
+            self.add_node(src_node)
         
         if dst_node not in self.adj_list:
-            self.adj_list.add_node(dst_node)
+            self.add_node(dst_node)
 
         if weighted is None:
-            self.adj_list[src_node].add(dst_node) #maybe use append??
+            self.adj_list[src_node].add(dst_node)
             if not self.directed:
                 self.adj_list[dst_node].add(src_node)
         else:
@@ -163,9 +163,9 @@ class Graph():
 
 
     def remove_edge(self, src_node, dst_node):
-        if src_node in self.adj_list:
+        if src_node in self.adj_list.keys():
             if dst_node in self.adj_list[src_node]:
-                self.adj_list[src_node].remove(dst_node)  #remove may not be a list function
+                self.adj_list[src_node].remove(dst_node)  #remove..
             else:
                 raise ValueError(f"Node {dst_node} does not exist in Source Node")
             
@@ -189,16 +189,87 @@ class Graph():
         return node in self.adj_list
 
     def has_edge(self, src_node, dst_node):
-        pass
+        if src_node in self.adj_list:
+            if dst_node in self.adj_list[src_node]:
+                return True
+            else:
+                return False
+        else:
+            raise ValueError("Source Node Not In Adjacency List")
+                    
 
     def get_nodes(self):
-        pass
+        nodes = []
+        for n in self.adj_list:
+            nodes.append(n)
+        return nodes
 
     def get_edges(self):
-        pass
+        edges = []
+        for src_node, neighbors in self.adj_list.items():
+            for dst in neighbors:
+                edges.append((src_node, dst))
+        
+        return edges
 
     def bfs(self, start):
-        pass
+        visited = set()
+        queue = [start]
+        order = []
+
+        while queue:
+            node = queue.pop(0)
+            if node not in visited:
+                visited.add(node)
+                order.append(node)
+                neighbors = self.get_neighbors(node=node)
+                for neighbor in neighbors:
+                    if isinstance(neighbor, tuple):
+                        neighbor = neighbor[0]
+                    if neighbor not in visited:
+                        queue.append(neighbor)
+                    
+        return order
 
     def dfs(self, start):
-        pass
+        visited = set()
+        stack = [start]
+        order = []
+
+        while stack:
+            node = stack.pop()
+            if node not in visited:
+                visited.add(node)
+                order.append(node)
+                neighbors = self.get_neighbors(node=node)
+                for neighbor in sorted(neighbors, reverse=True):
+                    if isinstance(neighbor, tuple):
+                        neighbor = neighbor[0]
+                    if neighbor not in visited:
+                        stack.append(neighbor)
+                    
+        return order
+    
+    
+if __name__ == "__main__":
+    g = Graph(directed=True)
+
+    g.add_edge("A","B", 1)
+    g.add_edge("A", "C", 10)
+    g.add_edge("B", "C", 1)
+    g.add_edge("B", "D", 1)
+    g.add_edge("D", "C", 1)
+    g.add_edge("A", "E", 2)
+    g.add_edge("E", 'F', 1)
+    g.add_edge('G', 'F', 1)
+    g.add_edge('F', 'H', 1)
+    g.add_edge('H', 'I', 1)
+    g.add_edge('I', 'G', 100)
+
+    print(g)
+    print(g.get_nodes())
+    # print(g.remove_edge('A', 'B'))
+    print(g.get_neighbors('A'))
+
+    print("BFS FROM A: ", g.bfs('A'))
+    print("DFS FROM C: ",  g.dfs('A'))
