@@ -47,7 +47,7 @@ class BinaryTree():
             self.value = cur.value
             self.content = cur.content
 
-            self.right = self.right.deleteNode(value)
+            self.right = self.right.deleteNode(cur.value)
             return self
 
         return self
@@ -84,7 +84,7 @@ class BinaryTree():
         
         if self.right:
             post_order.extend(self.right.postorder_traverse())
-        post_order.append(self.right.value)
+        post_order.append(self.value)
         return post_order
 
     def find(self, value):
@@ -158,23 +158,43 @@ un_graph = {
     "I": ["D"]
     }
 
-def has_undirectedpath(src, dst, graph):
-    vis = set()
+# def has_undirected_path(src, dst, graph):
+#     vis = set()
+#     if src not in graph or dst not in graph:
+#         return False
+    
+#     if src == dst:
+#         return True
+    
+#     vis.add(src)
+#     for neighbor in graph[src]:
+#         if neighbor not in vis:
+#             # vis.add(neighbor)
+#             if has_undirected_path(neighbor, dst, graph):
+#                 return True    
+    
+#     return False
+
+def has_undirected_path_iterative(src, dst, graph):
     if src not in graph or dst not in graph:
         return False
-    
     if src == dst:
         return True
-    vis.add(src)
-
-    ans = False
-    for neighbor in graph[src]:
-        if neighbor not in vis:
-            vis.add(neighbor)
-            ans = ans or has_undirectedpath(neighbor, dst, graph)
     
-    return ans
-
+    visited = set()
+    stack = [src]
+    
+    while stack:
+        current = stack.pop()
+        if current == dst:
+            return True
+        if current not in visited:
+            visited.add(current)
+            for neighbor in graph[current]:
+                if neighbor not in visited:
+                    stack.append(neighbor)
+    
+    return False
 #Q3: Number of provinces in a graph
 vec = 10
 edges = [
@@ -227,10 +247,10 @@ if __name__ == '__main__':
     print(bts.deleteNode(5))
     print(bts.postorder_traverse())
 
-
-    srs, dst = input().split()
+    srs = "A"
+    dst = "H"
     print(check_srs_dst(srs,dst,graph))
 
-    print(has_undirectedpath("A", "D", un_graph))
+    print(has_undirected_path_iterative("A", "D", un_graph))
 
     print("Count of Provinces in the Edge", unique_province(vec, edges=edges))

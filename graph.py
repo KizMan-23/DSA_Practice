@@ -164,16 +164,22 @@ class Graph():
 
     def remove_edge(self, src_node, dst_node):
         if src_node in self.adj_list.keys():
-            if dst_node in self.adj_list[src_node]:
-                self.adj_list[src_node].remove(dst_node)  #remove..
-            else:
-                raise ValueError(f"Node {dst_node} does not exist in Source Node")
+            for edge in self.adj_list[src_node]:
+                    if edge[0] == dst_node:
+                        self.adj_list[src_node].remove(dst_node)
+
+                    self.adj_list[src_node].remove(dst_node)
+                # if isinstance(dst_node, tuple):
+                #     dst_node = dst_node[0]
             
             if not self.directed:
-                if src_node in self.adj_list[dst_node]:
+                for edge in self.adj_list[dst_node]:
+                    if edge[0] == src_node:
+                        self.adj_list[dst_node].remove(src_node)
+                        
                     self.adj_list[dst_node].remove(src_node)
-                else:
-                    raise ValueError(f"Source Node may not exist in Node {dst_node}")
+                    # if isinstance(src_node, tuple):
+                    #     src_node = src_node[0]      
         else:
             raise ValueError(f"Node {src_node} does not exist in the Adjacency List")
 
@@ -223,7 +229,7 @@ class Graph():
                 visited.add(node)
                 order.append(node)
                 neighbors = self.get_neighbors(node=node)
-                for neighbor in neighbors:
+                for neighbor in sorted(neighbors,reverse=True):
                     if isinstance(neighbor, tuple):
                         neighbor = neighbor[0]
                     if neighbor not in visited:
@@ -253,8 +259,80 @@ class Graph():
     def check_print(self):
         for node in self.adj_list:
             print(f"{node} -> {self.adj_list[node]}")
-    
-    
+
+    def dijkstra(self, start):
+        import heapq
+        distances = {node: float('inf') for node in self.adj_list}
+        distances[start] = 0
+        heap = [(0, start)]
+        while heap:
+            current_distance, current_node = heapq.heappop(heap)
+            if current_distance > distances[current_node]:
+                continue
+            neighbors = self.adj_list.get(current_distance, set())
+            for neighbor in neighbors:
+                if isinstance(neighbor, tuple):
+                    to, weight = neighbor
+                else:
+                    to, weight = neighbor, 1
+                distance = current_distance + weight
+                if distance < distances[to]:
+                    distances[to] = distance
+                    heapq.heappush(heap, (distance, to))
+        
+        return distances
+
+    def shortest_path(self, start, end):
+        import heapq
+        distances = {node: float('inf') for node in self.adj_list}
+        previous = {node: None for node in self.adj_list}
+        distances[start] = 0
+        heap = [(0, start)]
+        while heap:
+            current_distance, current_node = heapq.heappop(heap)
+            if current_distance == end:
+                break
+            if current_distance > distances[current_node]:
+                continue
+            neighbors = self.adj_list.get(current_node, set())
+            for neighbor in neighbors:
+                if isinstance(neighbor, tuple):
+                    to, weight  = neighbor
+                else:
+                    to, weight = neighbor, 1
+                distance = current_distance + weight
+                if distance < distances[to]:
+                    distances[to] = distance
+                    previous[to] = current_node
+                    heapq.heappush(heap, (distance, to))
+        
+        path = []
+        node =  end
+        while node is not None:
+            path.append(node)
+            node = previous.get(node)
+        path.reverse()
+        if path[0] == start:
+            return path
+        return []
+
+    def to_adj_matrix(self):
+        nodes = self.get_nodes()
+        index = {node: i for i, node in enumerate(nodes)}
+        size = len(nodes)
+
+        matrix = [[0 for _ in range(size)] for _ in range(size)]
+        for from_node, neighbors in self.adj_list.items():
+            for to_node in neighbors:
+                if isinstance(to_node, tuple):
+                    to, weight = to_node
+                    matrix[index[from_node]][index[to]] = weight
+                else:
+                    matrix[index[from_node]][index[to_node]] = 1
+        
+        return matrix
+
+                    
 if __name__ == "__main__":
     g = Graph(directed=True)
 
@@ -273,7 +351,7 @@ if __name__ == "__main__":
     # print(g)
     print(g.check_print())
     print(g.get_nodes())
-    print(g.remove_edge('A', 'B'))
+    print(g.remove_edge('A', 'C'))
     print(g.get_neighbors('A'))
 
     print("BFS FROM A: ", g.bfs('A'))
