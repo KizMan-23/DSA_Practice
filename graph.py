@@ -250,6 +250,10 @@ class Graph():
                     
         return order
     
+    def check_print(self):
+        for node in self.adj_list:
+            print(f"{node} -> {self.adj_list[node]}")
+    
     
 if __name__ == "__main__":
     g = Graph(directed=True)
@@ -266,9 +270,10 @@ if __name__ == "__main__":
     g.add_edge('H', 'I', 1)
     g.add_edge('I', 'G', 100)
 
-    print(g)
+    # print(g)
+    print(g.check_print())
     print(g.get_nodes())
-    # print(g.remove_edge('A', 'B'))
+    print(g.remove_edge('A', 'B'))
     print(g.get_neighbors('A'))
 
     print("BFS FROM A: ", g.bfs('A'))
