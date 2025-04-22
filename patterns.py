@@ -82,61 +82,98 @@ def pattern12(n:int):
         print(spaces + col.rstrip())
 
 
-def pattern13(n:int):
+# def pattern13(n:int):
+#     for b in range(1, n + 1):
+#         col = "* "
+#         if b == 1:
+#             spaces = " " * (n-b)
+#             print(spaces + col)
+#         elif 1 < b < n:
+#             spaces1 = " " * (n-b)
+#             spaces = "  " * (b - 2)
+#             print(spaces1 + col + spaces + col)
+#         elif b == n:
+#             spaces = " " * (n-b)
+#             col = "*" * ((2*n) - 1)
+#             print(spaces + col)
+def pattern13(n: int):
     for b in range(1, n + 1):
-        col = "* "
-        if b == 1:
-            spaces = " " * (n-b)
-            print(spaces + col)
-        elif 1 < b < n:
-            spaces1 = " " * (n-b)
-            spaces = "  " * (b - 2)
-            print(spaces1 + col + spaces + col)
-        elif b == n:
-            spaces = " " * (n-b)
-            col = "*" * ((2*n) - 1)
-            print(spaces + col)
+        row = ""
+        for p in range(1, 2 * n):
+            if b == n or p == n - b + 1 or p == n + b - 1:
+                row += "*"
+            else:
+                row += " "
+        print(row)
 
 
-def pattern14(n:int):
-    for b in range(1, n+1):
-        star = "* "
-        if b == 1:
-            space = " " * (b - 1)
-            col = "*" * ((2*n) - 1)
-            print(space + col)
-        elif 1 < b < n:
-            spaces1 = " " * (b - 1)
-            spaces2 = "  " * (n-b-1)
-            print(spaces1 + star + spaces2 + star)
-        elif b == n:
-            space = " " * (n - 1)
-            print(space + star)
+# def pattern14(n:int):
+#     for b in range(1, n+1):
+#         star = "* "
+#         if b == 1:
+#             space = " " * (b - 1)
+#             col = "*" * ((2*n) - 1)
+#             print(space + col)
+#         elif 1 < b < n:
+#             spaces1 = " " * (b - 1)
+#             spaces2 = "  " * (n-b-1)
+#             print(spaces1 + star + spaces2 + star)
+#         elif b == n:
+#             space = " " * (n - 1)
+#             print(space + star)
+def pattern14(n: int):
+    for b in range(1, n + 1):
+        row = ""
+        for p in range(1, 2 * n):
+            if b == 1 or p == b or p == 2 * n - b:
+                row += "*"
+            else:
+                row += " "
+        print(row)
     
 
-def pattern15(n:int):
-    for b in range(1, 2*n):
-        col = "* "
-        if b <= n:
-            if b == 1:
-                space = " " * (n - b)
-                col = col * b
-                print(space + col)
-            elif 1 < b <= n:
-                space = " " * (n - b)
-                space2 = "  " * (b - 2)
-                print(space + col + space2 + col)
-        else:
-            if n < b < 2*n - 1:
-                space = " " * (b - n)
-                space2 = "  " * ((2*n) - b -2)
-                print(space + col + space2 + col)
-            elif b == 2*n - 1:
-                space = " " * (b - n)
-                print(space + col)
+# def pattern15(n:int):
+#     for b in range(1, 2*n):
+#         col = "* "
+#         if b <= n:
+#             if b == 1:
+#                 space = " " * (n - b)
+#                 col = col * b
+#                 print(space + col)
+#             elif 1 < b <= n:
+#                 space = " " * (n - b)
+#                 space2 = "  " * (b - 2)
+#                 print(space + col + space2 + col)
+#         else:
+#             if n < b < 2*n - 1:
+#                 space = " " * (b - n)
+#                 space2 = "  " * ((2*n) - b -2)
+#                 print(space + col + space2 + col)
+#             elif b == 2*n - 1:
+#                 space = " " * (b - n)
+#                 print(space + col)
 
-def pattern16(n:int):
-    pass
+def pattern15(n: int):
+    for b in range(1, 2*n):
+        leading_spaces = abs(b - n)
+        if b == 1 or b == 2*n - 1:
+            print(" " * leading_spaces + "*")
+        else:
+            spaces_between = 2 * min(b, 2*n - b) - 3
+            print(" " * leading_spaces + "*" + " " * spaces_between + "*")
+
+def pattern16(n: int):
+    prev_row = [1]
+    for i in range(n):
+        leading_spaces = " " * (n - i - 1)
+        print(leading_spaces + " ".join(map(str, prev_row)))
+        if i < n - 1:
+            next_row = [1]
+            for k in range(1, i + 1):
+                next_row.append(prev_row[k - 1] + prev_row[k])
+            next_row.append(1)
+            prev_row = next_row
+
 
 def pattern17(n:int):
     num = ''
@@ -161,6 +198,37 @@ def pattern18(n:int):
             print(col + space + col)
 
 
+def pattern19(n:int):
+    for b in range(1, 2*n):
+        if b <= n:
+            spaces = " " * (2*(n-b))
+            col = "*" * b
+            print(col + spaces + col)
+        else:
+            space = " " * (2 *(b - n))
+            col = "*" * ((2*n) - b)
+            print(col + space + col)
+
+def pattern20(n:int):
+    for b in range(1, n+1):
+        if b == 1 or b == n:
+            col = "*" * (n-1)
+            print(col)
+        else:
+            space = " " * 2
+            col = "*"
+            print(col + space + col)
+
+def pattern21(n:int):
+    digits = ' '
+    for a in range(1, (3*n) + 1):
+        digits += str(a)
+    
+    for b in range(1, n + 1):
+        col = digits[b + 1 : b+2]
+        space = " " * (n-b)
+        print(col)
+
 
             
         
@@ -168,8 +236,5 @@ def pattern18(n:int):
 
 
 
-
-
-
 if __name__ == '__main__':
-    pattern18(5)
+    pattern17(5)
