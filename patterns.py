@@ -176,15 +176,13 @@ def pattern16(n: int):
 
 
 def pattern17(n:int):
-    num = ''
-    for b in range(1, n+1):
-        space = " " * (n - b)
-        num += str(b)
-        sort_num = "".join(sorted(num, reverse=True))
-        rev = num[1:]
+    for b in range(1, 2*n):
+        space = " " * abs(b - n)
+        k = min(b, 2*n - b) #row range
+        num = [str(i) for i in range(k,0, -1)] + [str(j) for j in range(2, k+1)]
+        print(space + "".join(num))
 
-        output = (space + sort_num + rev)
-        print(output)
+
 
 def pattern18(n:int):
     for b in range(2*n + 1):
@@ -215,20 +213,17 @@ def pattern20(n:int):
             col = "*" * (n-1)
             print(col)
         else:
-            space = " " * 2
+            space = " " * (n-3)
             col = "*"
             print(col + space + col)
 
 def pattern21(n:int):
-    digits = ' '
-    for a in range(1, (3*n) + 1):
-        digits += str(a)
-    
-    for b in range(1, n + 1):
-        col = digits[b + 1 : b+2]
-        space = " " * (n-b)
-        print(col)
-
+    num = 1
+    for b in range(1, n+1):
+        row = [str(num + i) for i in range(b)]
+        num += b
+        print(" ".join(row))
+        
 
             
         
@@ -237,4 +232,4 @@ def pattern21(n:int):
 
 
 if __name__ == '__main__':
-    pattern17(5)
+    pattern21(5)
