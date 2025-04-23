@@ -225,11 +225,58 @@ def pattern21(n:int):
         print(" ".join(row))
         
 
-            
+def pattern22(n:int):
+    from itertools import cycle
+    for b in range(1, n+1):
+        rows = [str(cycle({1,0})) for i in range(b)]
+
+        for row in rows:
+            print(" ".join(str(row)))
+
+
+def pattern25(n:int):
+    for b in range(1,n+1):
+        space = " " *(n -b)
+        if b == 1 or b == n:
+            row = "*" * (n)
+            print(space + row)
+        else:
+            sp1 = " " * (n - 2)
+            row = "*" 
+            print(space + row + sp1 + row)
+
+def pattern26(n:int):
+    num = 1
+    for b in range(1, n+1):
+        row = str(num) * (n - (b - 1))
+        num += 1
+        print(" ".join(row))
+
+def pattern27(n:int):
+    num = 1
+    for b in range(1, n+1):
+        space = "  " * (b - 1)
+        row = [str(num + i) for i in range(n - (b-1))]
+        num = int(row[-1]) + 1
+        
+        print(space + " ".join(row))     
+
+def pattern35(n:int):
+    for b in range(1, n+1):
+        row = ""
+        for pg in range(1, 2*n):
+            if b == pg or pg == 2*n - (b - 1):
+                row += str(b)
+                space = " " * (2*n - (2*b))
+                rev_row = sorted(row, reverse=True)
+                rev_row = "".join(rev_row)
+                print(row + space + rev_row)
+
+       
         
 
 
 
 
 if __name__ == '__main__':
-    pattern21(5)
+    pattern35(4)
