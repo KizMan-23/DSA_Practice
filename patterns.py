@@ -232,6 +232,16 @@ def pattern22(n:int):
 
         for row in rows:
             print(" ".join(str(row)))
+    pass #incomplete
+
+
+def pattern23(n:int):
+    for b in range(n+1):
+        pass
+
+def pattern24(n:int):
+    for b in range(1, 2*n +1):
+        pass
 
 
 def pattern25(n:int):
@@ -259,14 +269,59 @@ def pattern27(n:int):
         row = [str(num + i) for i in range(n - (b-1))]
         num = int(row[-1]) + 1
         
-        print(space + " ".join(row))
+        print(space + " ".join(row)) #INCOMPLETE
+
+def pattern28(n:int):
+    for b in range(1, 2*n + 1):     
+        spaces = " " * abs(n - b)
+        col = "* " * (n - abs(n-b))
+        print(spaces + col)
+
+
+def pattern29(n:int):
+    pass # Already Solved in Pattern 19
+
+def pattern30(n:int):
+    num = 1
+    row = ""
+    for b in range(1, n+1):
+        space = "  " * (n - b)
+        row += str(num)
+
+        rev_row = " ".join(sorted(row, reverse=True))
+        new_row = " ".join(row[1:])
+        num += 1
+        print(space + rev_row + new_row) #tab space wasn't added for this
+
+def pattern30a(n:int):
+    num = 1
+    row = ""
+    for b in range(1, n+1):
+        col_num = 2*n
+        space = "  " * (n -b)
+        row += str(f"{num}")
+        rev_row = " ".join(sorted(row, reverse=True))
+        for c in range(col_num):
+            if c == n - (b-1):
+                c = row[1:]
+                c = " ".join(c)
+                num += 1
+                print(space + rev_row + " " + c) #the space in print is funny cos i can't find how to incoporate it equally into the numbers
+                
+        
+
+def pattern31(n:int):
+    for b in range(2*n):
+        pass
+
 
 def pattern32(n:int):
     alpha = ["A", "B", "C", "D", "E"]
     for b in range(n+1):
-        val = alpha[:n+1]
-        rev_alpha = " ".join(sorted(val, reverse=True))
+        val = alpha[(n - b):n+1]
+        rev_alpha = " ".join(sorted(val))
         print(rev_alpha) 
+
 
 def pattern33(n:int):
     alpha = ["A", "B", "C", "D", "E"] #generate abcd
@@ -296,4 +351,4 @@ def pattern35(n:int):
 
 
 if __name__ == '__main__':
-    pattern34(4)
+    pattern27(5)
