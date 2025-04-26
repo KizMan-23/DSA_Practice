@@ -226,14 +226,12 @@ def pattern21(n:int):
         
 
 def pattern22(n:int):
-    from itertools import cycle
+    # digits = cycle([1, 0])
     for b in range(1, n+1):
-        rows = [str(cycle({1,0})) for i in range(b)]
-
-        for row in rows:
-            print(" ".join(str(row)))
-    pass #incomplete
-
+        start = 1 if b % 2 == 1 else 0
+        row = [str((start + i) % 2)  for i in range(b)]
+        print(" ".join(row))
+ 
 
 def pattern23(n:int):
     for b in range(1, n+1):
@@ -244,6 +242,7 @@ def pattern23(n:int):
             else:
                 row = ""
         print(row)
+
 
 def pattern24(n:int):
     for b in range(1, 2*n +1):
@@ -268,14 +267,21 @@ def pattern26(n:int):
         num += 1
         print(" ".join(row))
 
-def pattern27(n:int):
+def pattern27(n: int):
     num = 1
-    for b in range(1, n+1):
-        space = "  " * (b - 1)
-        row = [str(num + i) for i in range(n - (b-1))]
-        num = int(row[-1]) + 1
+    total = n * (n + 1)
+    right_start = total - n + 1
+    for b in range(1, n + 1):
+        spaces = "  " * (b - 1)
+        count = n - b + 1
+
+        left = [str(num + i) for i in range(count)]
+        num += count
+
+        right = [str(right_start + i) for i in range(count)]
+        right_start = right_start - count + 1
         
-        print(space + " ".join(row)) #INCOMPLETE
+        print(spaces + " ".join(left) + "  " + " ".join(right))
 
 def pattern28(n:int):
     for b in range(1, 2*n + 1):     
@@ -312,12 +318,22 @@ def pattern30a(n:int):
                 c = row[1:]
                 c = " ".join(c)
                 num += 1
-                print(space + rev_row + " " + c) #the space in print is funny cos i can't find how to incoporate it equally into the numbers
-                
-        
+                print(space + rev_row + " " + c) #the space here is funny cos i can't find how to incoporate it equally into the numbers
+                 
 
-def pattern31(n:int):
-    pass    
+def pattern31(n: int):
+    size = 2 * n - 1
+    for i in range(1, size + 1):
+        row = []
+        for j in range(1, size + 1):
+            # Distances to edges
+            top = i - 1
+            bottom = size - i
+            left = j - 1
+            right = size - j
+            value = n - min(top, bottom, left, right)
+            row.append(str(value))
+        print(" ".join(row))
 
 
 def pattern32(n:int):
@@ -374,4 +390,4 @@ def pattern35(n:int):
 
 
 if __name__ == '__main__':
-    pattern33a(5)
+    pattern31(4)
