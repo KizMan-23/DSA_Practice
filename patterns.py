@@ -236,8 +236,14 @@ def pattern22(n:int):
 
 
 def pattern23(n:int):
-    for b in range(n+1):
-        pass
+    for b in range(1, n+1):
+        row = ""
+        for c in range(1, 3*n + 1):
+            if  c == 3*n - (n-b) or c == 3*n - (n + b - 1):
+                row += "* "
+            else:
+                row = ""
+        print(row)
 
 def pattern24(n:int):
     for b in range(1, 2*n +1):
@@ -311,8 +317,7 @@ def pattern30a(n:int):
         
 
 def pattern31(n:int):
-    for b in range(2*n):
-        pass
+    pass    
 
 
 def pattern32(n:int):
@@ -324,10 +329,28 @@ def pattern32(n:int):
 
 
 def pattern33(n:int):
-    alpha = ["A", "B", "C", "D", "E"] #generate abcd
-    for b in range(n+1):
-        pass
+    import string
+    letters = string.ascii_lowercase
+    num = 0
+    for b in range(1, n+1):
+        row = ""
+        for c in range(b):
+            num += 1
+            letter = letters[(num -1) % 26]
+            if num % 2 == 0:
+                letter  = letter.upper()
+            row += f"{letter} "
+        print(row)
 
+def pattern33a(n:int):
+    import string
+    letters = string.ascii_lowercase
+    num = 0
+    for b in range(1, n+1):
+        num += 1
+        letter = [letters[(num - c -1) % 26].upper() if num % 2 == 0 else letters[(num-c -1) % 26] for c in range(b)]
+        
+        print(" ".join(letter))
 
 
 def pattern34(n:int):
@@ -351,4 +374,4 @@ def pattern35(n:int):
 
 
 if __name__ == '__main__':
-    pattern27(5)
+    pattern33a(5)
