@@ -21,12 +21,12 @@ def pattern4(n:int):
 
 def pattern5(n:int): 
     for b in range(1, (2* n) + 1):
-        if b <= n:
-            col = '*' * b
-            print(col)
-        else:
-            col = '*' * ((2*n) -b)
-            print(col)
+        # if b <= n:
+        col = '*' * (n - abs(n-b))
+        print(col)
+        # else:
+        #     col = '*' * ((2*n) -b)
+        #     print(col)
 
 def pattern6(n:int):
     for s in range(1, n+1):
@@ -66,7 +66,7 @@ def pattern10(n:int):
 
 def pattern11(n:int):
     for b in range(n+1):
-        spaces = " " * (n - (n-b))
+        spaces = " " * (b)
         col = "* " * (n - b)
         print(spaces + col)
  
@@ -390,4 +390,4 @@ def pattern35(n:int):
 
 
 if __name__ == '__main__':
-    pattern31(4)
+    pattern11(5)
